@@ -1,6 +1,6 @@
-"BCC Hackfest
+BCC Hackfest
 --------------
 
-This is Russell Dias and I's contribution to the (BCC Hackfest)[http://www.egovernmentcluster.org.au/events/registration/index.php?id=23]
+This is Russell Dias and I's contribution to the [BCC Hackfest](http://www.egovernmentcluster.org.au/events/registration/index.php?id=23)
 
 
