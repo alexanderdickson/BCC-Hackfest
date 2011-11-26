@@ -1,5 +1,4 @@
 <?php
-echo '<pre>';
 $headers = array();
 $toilets = array();
 $row = 0;
@@ -18,4 +17,6 @@ if (($handle = fopen("PUBLIC_TOILETS.csv", "r")) !== FALSE) {
     }
     fclose($handle);
 }
-print_r($toilets);
+
+
+
