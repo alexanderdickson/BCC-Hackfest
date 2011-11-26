@@ -53,7 +53,7 @@
         urgency: urgency.slider('value')
       };
 
-      $.post('receive-location.php', JSON.stringify(post), function(points) {
+      $.post('receive-location.php?bust_that_cache=' + +new Date, JSON.stringify(post), function(points) {
         throbber.hide();
         renderMap(points, lat, lon);
 
