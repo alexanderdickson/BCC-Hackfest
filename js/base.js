@@ -7,6 +7,8 @@
 
   // Map object.
   var map;
+
+  var markers = [];
   
   // Utility belt.
   var util = {
@@ -45,7 +47,6 @@
 
   // Send user location to server.
   var getData = function(lat, lon) {
-  console.log('hget data');
       throbber.show();
 
       var post = {
@@ -65,10 +66,15 @@
   var renderMap = function(points, lat, lon) {
     var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability', 'distance'],
         markerBounds = new google.maps.LatLngBounds(),
-        markers = [],
         directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer(),
         location = new google.maps.LatLng(lat, lon);
+    
+    $.each(markers, function(i, marker) {
+      marker.marker.setMap(null);
+    });
+
+    markers = [];
 
     directionsDisplay.supressMarkers = true;
     directionsDisplay.suppressInfoWindows	= true;
