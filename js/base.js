@@ -82,7 +82,7 @@
       min: 0,
       orientation: 'vertical',
       slide: function(event, ui) {
-        
+         console.log(event, ui, ui.value)
         
 
       }
@@ -101,4 +101,4 @@
   $(init);
 
 
-}(jQuery);
+})(jQuery);
