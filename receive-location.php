@@ -25,7 +25,7 @@ $toilets = array_map(function($member) {
 }, $toilets);
 
 usort($toilets, function($a, $b) {
-	return $b['distance'] = $a['distance'];
+	return $b['distance'] - $a['distance'];
 });
 
 header('content-type: application/json');
