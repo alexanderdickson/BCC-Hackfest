@@ -17,18 +17,37 @@ footer {
 	position: absolute;
 	bottom: 0;
 }
+dd, dt {
+	margin: 0 0 0 5px;
+}
+dt {
+	margin-bottom: 5px;		
+}
 #sidebar {
 	width: 300px;
 	background-color: rgba(255, 255, 255, 0.8);
 	position: absolute;
 	height: 100%;
 	right: 0;
-	border-left: 1px solid #000;
+	border-left: 1px solid #ccc;
 	padding-left: 10px;
 }
 	#sidebar h1 {
 		font-family: 'Lobster', cursive;
 		font-size: 40px;
+		margin: 0 0 10px -10px;
+		padding-left: 10px;
+		border-bottom: 1px solid #ccc;
+	}
+		#sidebar a {
+			color: #AE1215;
+			text-decoration: none;
+		}
+		#sidebar a:hover {
+			color: #000;
+		}
+	#sidebar dd {
+		font-weight: bold;
 	}
 #map {
 	height: 100%;
@@ -36,6 +55,7 @@ footer {
 	position: absolute;
 	right: 310px;
 }
+
 /*
  * Jquery UI
  */
