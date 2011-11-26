@@ -3,7 +3,7 @@ include 'main.php';
 $postdata = file_get_contents("php://input");
 
 $user = json_decode($postdata, true);
-$user['location'] = array(-27.4675018,153.0246554);
+#$user['location'] = array(-27.4675018,153.0246554);
 //$user['location'][0] = lat
 //$user['location'][1] = long
 
