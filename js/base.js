@@ -19,6 +19,7 @@
       }
 
       msg.html(msg);
+      alert(msg);
 
     }
 
@@ -27,13 +28,12 @@
   // Get the user's location via the Geolocation API.
   var getUserLocation = function(callback) {
     var geolocation = navigator.geolocation;
-    
     if ( ! geolocation) {
       util.userMessage('Your browser does not support Geolocation.');
       return false;
     } else {
       
-      geolocation.watchPosition(function(position) {          
+      geolocation.getCurrentPosition(function(position) {          
         callback.apply(null, [position.coords.latitude, position.coords.longitude]);
       }, function() {
         util.userMessage('Problem bro, you\'re on your own.');
@@ -45,14 +45,16 @@
 
   // Send user location to server.
   var getData = function(lat, lon) {
-      
+  console.log('hget data');
+      throbber.show();
+
       var post = {
         location: [lat, lon],
         urgency: urgency.slider('value')
       };
 
       $.post('receive-location.php', JSON.stringify(post), function(points) {
-
+        throbber.hide();
         renderMap(points, lat, lon);
 
       });
@@ -61,11 +63,12 @@
 
   // Draw points on map.
   var renderMap = function(points, lat, lon) {
-    var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability'],
+    var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability', 'distance'],
         markerBounds = new google.maps.LatLngBounds(),
         markers = [],
         directionsService = new google.maps.DirectionsService(),
-        directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay = new google.maps.DirectionsRenderer(),
+        location = new google.maps.LatLng(lat, lon);
 
     directionsDisplay.supressMarkers = true;
     directionsDisplay.suppressInfoWindows	= true;
@@ -73,7 +76,6 @@
 
 
     $.each(points, function(i, point) {
-
       var position = new google.maps.LatLng(point.latitude, point.longitude);
 
       var disabledAccess = point.disabled_access.toLowerCase(),
@@ -111,7 +113,7 @@
         $('.get_directions a').click(function() {
 
           var request = {
-            origin: new google.maps.LatLng(lat, lon),
+            origin: location,
             destination: position,
             travelMode: google.maps.TravelMode[this.id.toUpperCase()]
           };
@@ -139,6 +141,9 @@
            
 
     });
+
+    markerBounds.extend(location);
+    
     
     map.fitBounds(markerBounds);
     
@@ -171,7 +176,9 @@
           .css('backgroundColor', 'rgb(' + value + ', ' + (200 - value) + ', 0)'); 
         
         timeout = setTimeout(function() {
-         // getUserLocation(getData);
+          getUserLocation(function() {
+            getData.apply(null, arguments);
+          });
         }, 300);
 
       }
@@ -179,7 +186,6 @@
 
     // Get user location.
     getUserLocation(function(lat, lon) {
-      
       // Post to server.
       getData(lat, lon);
       
