@@ -7,20 +7,23 @@ $user['location'] = array(-27.4673492,153.0246638);
 //$user['location'][0] = lat
 //$user['location'][1] = long
 
-//echo getDistanceBetweenPointsNew(-27.5624422072, 153.080918317, -27.4253119313, 153.017472824);
-//die;
-
 $toilets = array_map(function($member) use ($user) {
 	$member['distance'] = 1000 * getDistanceBetweenPointsNew($user['location'][0], $user['location'][1], $member['latitude'], $member['longitude']);
 
+	//smells funky
 	$member['park_library_centre'] =  ucwords(strtolower($member['park_library_centre']));
 	$member['availability'] =  ucwords(strtolower($member['availability']));
 	$member['street'] =  ucwords(strtolower($member['street']));
 	$member['suburb'] =  ucwords(strtolower($member['suburb']));
 	$member['toilet_name'] =  ucwords(strtolower($member['toilet_name']));
+
 	return $member;
+
 }, $toilets);
 
+$toilets = array_filter($toilets, function($member) {
+	return $member['distance'] < 1250;
+});
 
 usort($toilets, function($a, $b) {
 	return $a['distance'] - $b['distance'];
