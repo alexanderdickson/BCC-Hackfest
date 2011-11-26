@@ -10,15 +10,6 @@ body {
 	direction: ltr;
 	height: 100%;
 }
-
-header {
-	height: 50px;
-	width: 100%;
-	background-color: rgba(255, 255, 255, 0.8);
-	border-bottom: 1px solid #000;
-	position: absolute;
-	top: 0px;
-}
 footer {
 	height: 20px;
 	background-color: #fff;
@@ -26,24 +17,24 @@ footer {
 	position: absolute;
 	bottom: 0;
 }
-header h1 {
-	margin-top: 0px;
-	padding-top: 7px;
-}
 #sidebar {
 	width: 300px;
 	background-color: rgba(255, 255, 255, 0.8);
 	position: absolute;
 	height: 100%;
-	top: 51px;
 	right: 0;
 	border-left: 1px solid #000;
+	padding-left: 10px;
 }
-
+	#sidebar h1 {
+		font-family: 'Lobster', cursive;
+		font-size: 40px;
+	}
 #map {
 	height: 100%;
 	width: 100%;
 	position: absolute;
+	right: 310px;
 }
 /*
  * Jquery UI
