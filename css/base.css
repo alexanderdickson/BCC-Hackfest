@@ -36,9 +36,12 @@ dd {
 		padding: 0 10px 0 15px;
 		margin: 0 -10px 0 -10px;				
 		border-top: 1px solid #ccc;
+		background-color: #CCDEDC;
 	}
 		#sidebar .get_directions ul {
 			padding-left: 0px;
+			margin-bottom: 0;
+			padding-bottom: 10px;
 		}
 	#sidebar .map_legend {
 		border-top: 1px solid #ccc;
@@ -126,9 +129,6 @@ dd {
 	background: -webkit-gradient(linear,left top,left bottom,from(#F4F4F4),to(#ECECEC));
 	background: -moz-linear-gradient(top,#F4F4F4,#ECECEC);
 }
-.minibutton:hover {
-	background-color: #000;
-}
 .minibutton > span {
 	display: block;
 	height: 21px;
@@ -145,7 +145,7 @@ dd {
 	border-bottom-color:#2a65a0;
 	background:#599bdc;
 	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#599bdc',endColorstr='#3072b3');
-	background:-webkit-gradient(linear,left top,left bottom,from(#599bdc),to(#3072b3));
+	background:-webkit-gradient(linear,left top,left bottom,from(#A7B8B6),to(#768A88));
 	background:-moz-linear-gradient(top,#599bdc,#3072b3);
 }
 

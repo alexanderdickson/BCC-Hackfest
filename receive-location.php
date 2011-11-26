@@ -3,6 +3,7 @@ include 'main.php';
 $postdata = file_get_contents("php://input");
 
 $user = json_decode($postdata, true);
+
 //$user['location'][0] = lat
 //$user['location'][1] = long
 
@@ -21,7 +22,8 @@ $toilets = array_map(function($member) use ($user) {
 }, $toilets);
 
 $toilets = array_filter($toilets, function($member) {
-	return $member['distance'] < 1250;
+	$max_distance = ($user['urgency'] + 500) * 2;
+	return $member['distance'] < $max_distance;
 });
 
 usort($toilets, function($a, $b) {
