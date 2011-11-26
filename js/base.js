@@ -34,7 +34,7 @@
       return false;
     } else {
       
-      geolocation.getCurrentPosition(function(position) {          
+      geolocation.watchPosition(function(position) {          
         callback.apply(null, [position.coords.latitude, position.coords.longitude]);
       }, function() {
         util.userMessage('Problem bro, you\'re on your own.');
@@ -45,12 +45,12 @@
 
 
   // Send user location to server.
-  var getData = function(location) {
+  var getData = function(lat, lon) {
       
       
 
       var post = {
-        location: location,
+        location: [lat, long],
         urgency: urgency.slider('value')
       };
 
@@ -101,10 +101,7 @@
     getUserLocation(function(lat, lon) {
       
       // Post to server.
-      $('#action').click(function() {
-        getData(lat, lon);
-      });
-
+      getData(lat, lon);
       
       map = new google.maps.Map($('#map')[0],
           {
