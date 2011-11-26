@@ -22,6 +22,7 @@ footer {
 	text-align: left;
 	line-height: 20px;
 	z-index 1;
+	pointer-events: none;
 }
 dd, dt {
 	margin: 0 0 0 5px;
