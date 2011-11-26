@@ -63,38 +63,45 @@
   // Draw points on map.
   var renderMap = function(points) {
     var markerBounds = new google.maps.LatLngBounds(),
-         infoWindows = [];
-    
-    var getIcon = function(color) {
-      return MapIconMaker.createMarkerIcon({width: 20, height: 34, primaryColor: color, cornercolor:color});
-    }
+        markers = [];
 
     $.each(points, function(i, point) {
 
       var position = new google.maps.LatLng(point.latitude, point.longitude);
 
+      var disabledAccess = point.disabled_access.toLowerCase(),
+          hasDisabledAccess = disabledAccess == 'fully accessible' || disabledAccess.indexOf('wheelchair') !== -1,
+          originalImgSrc = 'images/toilets' + (hasDisabledAccess ? '-disability' : '') + '.png';
+
+
+      
+
       var marker = new google.maps.Marker({
         map: map,
         position: position,
-        icon: getIcon('#000000')
-        
+        icon: originalImgSrc,
+        title: point.toilet_name
       });
-
-      var infoWindow = new google.maps.InfoWindow();
-
-      infoWindows.push(infoWindow);
+      
+      markers.push({
+        marker: marker,
+        img: originalImgSrc
+      });
 
       google.maps.event.addListener(marker, 'click', function() {
-
-        infoWindow.setContent(point.toilet_name);
-
-        $.each(infoWindows, function(i, infoWindow) {
-          infoWindow.close();
+        
+        $.each(markers, function(i, thisMarker) {
+          if (marker === thisMarker.marker) {
+            return true;
+          }
+          thisMarker.marker.setIcon(thisMarker.img);
         });
 
-        infoWindow.open(map, marker);
+        marker.setIcon(originalImgSrc.replace(/\.\w{3}$/, '-active$&'));
 
       });
+
+      console.log(point);
 
       markerBounds.extend(position);
            
@@ -151,7 +158,8 @@
       new google.maps.Marker({
         map: map,
         position: new google.maps.LatLng(lat, lon),
-        //icon: ''
+        icon: 'images/start.png',
+        title: 'You are here'
       });
 
 
