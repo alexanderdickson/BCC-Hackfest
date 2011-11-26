@@ -20,7 +20,7 @@ footer {
 dd, dt {
 	margin: 0 0 0 5px;
 }
-dt {
+dd {
 	margin-bottom: 5px;		
 }
 #sidebar {
@@ -60,7 +60,7 @@ dt {
 		#sidebar a:hover {
 			color: #000;
 		}
-	#sidebar dd {
+	#sidebar dt {
 		font-weight: bold;
 		font-size: 13px;
 		color: #727675;
