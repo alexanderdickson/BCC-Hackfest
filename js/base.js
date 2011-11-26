@@ -81,25 +81,25 @@
 
     urgency.slider({
       animate: true,
-      max: 5,
+      max: 100,
       min: 0,
       orientation: 'vertical',
       slide: function(event, ui) {
          //console.log(event, ui)
          
-         var value = ($(event.srcElement).slider('option', 'max') / 100) * ui.value;
+         var value = (ui.value / $(event.target).slider('option', 'max')) * 200;
 
-         $(event.srcElement)
+        console.log(value);
+
+         $(event.target)
           .find('.ui-slider-handle')
-          .css('backgroundColor', 'rgb(' + value + '%, 0, 0)'); 
+          .css('backgroundColor', 'rgb(' + value + ', ' + (200 - value) + ', 0)'); 
       }
     });
 
     // Get user location.
     getUserLocation(function(lat, lon) {
       
-      console.log(arguments);
-
       // Post to server.
       $('#action').click(function() {
         getData(lat, lon);
@@ -108,7 +108,7 @@
       
       map = new google.maps.Map($('#map')[0],
           {
-          zoom: 4,
+          zoom: 18,
           center: new google.maps.LatLng(lat, lon),
           mapTypeId: google.maps.MapTypeId.ROADMAP
 
@@ -119,7 +119,7 @@
 
     });
     
-      }
+  }
 
  
   $(init);
