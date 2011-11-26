@@ -20,7 +20,7 @@ function haversine ($l1, $o1, $l2, $o2)
 } 
 
 $toilets = array_map(function($member) {
-	$member['distance'] = haversine($user['location'][0], $user['location'][1], $member['Latitude'], $member['Longitude']);
+	$member['distance'] = haversine($user['location'][0], $user['location'][1], $member['latitude'], $member['longitude']);
 	return $member;
 }, $toilets);
 

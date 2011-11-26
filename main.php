@@ -8,6 +8,8 @@ if (($handle = fopen("PUBLIC_TOILETS.csv", "r")) !== FALSE) {
         $row++;
         for ($c=0; $c < $num; $c++) {
             if($row == 1) {
+
+            	$data[$c] = preg_replace('/\W+/', '_', $data[$c]);
         		$headers[] = strtolower($data[$c]);
         		continue;
         	}
