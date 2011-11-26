@@ -8,7 +8,8 @@
   // Map object.
   var map;
 
-  var markers = [];
+  var markers = [],
+      routes = [];
   
   // Utility belt.
   var util = {
@@ -67,7 +68,6 @@
     var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability', 'distance'],
         markerBounds = new google.maps.LatLngBounds(),
         directionsService = new google.maps.DirectionsService(),
-        directionsDisplay = new google.maps.DirectionsRenderer(),
         location = new google.maps.LatLng(lat, lon);
     
     $.each(markers, function(i, marker) {
@@ -76,9 +76,9 @@
 
     markers = [];
 
-    directionsDisplay.supressMarkers = true;
-    directionsDisplay.suppressInfoWindows	= true;
-    directionsDisplay.setMap(map);
+   
+   // directionsDisplay.supressMarkers = true;
+    //directionsDisplay.suppressInfoWindows	= true;
 
 
     $.each(points, function(i, point) {
@@ -101,7 +101,20 @@
         img: originalImgSrc
       });
 
+     
       var click = function() {
+        
+        $.each(routes, function(i, route) {
+          route.setMap(null);
+        });
+
+        routes = [];
+
+         var directionsDisplay = new google.maps.DirectionsRenderer();
+         directionsDisplay.setMap(map);
+         routes.push(directionsDisplay);
+
+
         $.each(markers, function(i, thisMarker) {
           if (marker === thisMarker.marker) {
             return true;
