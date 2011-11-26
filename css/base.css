@@ -1,17 +1,23 @@
 /*
  * Main
  */
+html {
+	height: 100%;
+}
 body {
 	font-size: 12px;
 	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
 	direction: ltr;
-	background-color: #ccc;
+	height: 100%;
 }
 
 header {
 	height: 50px;
-	background-color: #fff;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.8);
 	border-bottom: 1px solid #000;
+	position: absolute;
+	top: 0px;
 }
 footer {
 	height: 20px;
@@ -26,16 +32,29 @@ header h1 {
 }
 #sidebar {
 	width: 300px;
-	background-color: #fff;
+	background-color: rgba(255, 255, 255, 0.8);
 	position: absolute;
 	height: 100%;
+	top: 51px;
 	right: 0;
 	border-left: 1px solid #000;
 }
 
+#map {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
 /*
  * Jquery UI
  */
  .ui-slider-handle { 
-	 background-image: none; 
+	 background-image: none !important; 
 }
+
+/*
+ * ETC
+ */ 
+#throbber { 
+	display: none 
+} 
