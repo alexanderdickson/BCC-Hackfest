@@ -50,7 +50,7 @@
       
 
       var post = {
-        location: [lat, long],
+        location: [lat, lon],
         urgency: urgency.slider('value')
       };
 
