@@ -63,10 +63,12 @@
   var renderMap = function(points, lat, lon) {
     var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability'],
         markerBounds = new google.maps.LatLngBounds(),
-        markers = [];
+        markers = [],
+        directionsService = new google.maps.DirectionsService(),
+        directionsDisplay = new google.maps.DirectionsRenderer();
 
-    var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.supressMarkers = true;
+    directionsDisplay.suppressInfoWindows	= true;
     directionsDisplay.setMap(map);
 
 
@@ -105,7 +107,6 @@
           $('#' + key).text(point[key] || 'Unknown');
         });
 
-        //console.log(marker);
         
         $('.get_directions a').click(function() {
 
@@ -133,8 +134,6 @@
       if ( ! i) { 
         click();
       }
-
-      //console.log(point);
 
       markerBounds.extend(position);
            
@@ -172,8 +171,7 @@
           .css('backgroundColor', 'rgb(' + value + ', ' + (200 - value) + ', 0)'); 
         
         timeout = setTimeout(function() {
-          getUserLocation(getData);
-
+         // getUserLocation(getData);
         }, 300);
 
       }
