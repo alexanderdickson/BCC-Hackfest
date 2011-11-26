@@ -54,7 +54,7 @@
         urgency: urgency.slider('value')
       };
 
-      $.post('receive-location.php', post, function(response) {
+      $.post('receive-location.php', JSON.stringify(post), function(response) {
         
         renderMap();
 
