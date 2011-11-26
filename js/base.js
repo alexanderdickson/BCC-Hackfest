@@ -53,7 +53,6 @@
       };
 
       $.post('receive-location.php', JSON.stringify(post), function(points) {
-        
 
         renderMap(points);
 
@@ -63,26 +62,47 @@
 
   // Draw points on map.
   var renderMap = function(points) {
+    var markerBounds = new google.maps.LatLngBounds(),
+         infoWindows = [];
+    
+    var getIcon = function(color) {
+      return MapIconMaker.createMarkerIcon({width: 20, height: 34, primaryColor: color, cornercolor:color});
+    }
 
     $.each(points, function(i, point) {
 
+      var position = new google.maps.LatLng(point.latitude, point.longitude);
+
       var marker = new google.maps.Marker({
         map: map,
-        position: new google.maps.LatLng(point.latitude, point.longitude)
+        position: position,
+        icon: getIcon('#000000')
+        
       });
 
       var infoWindow = new google.maps.InfoWindow();
 
+      infoWindows.push(infoWindow);
+
       google.maps.event.addListener(marker, 'click', function() {
 
-        infoWindow.setContent('hello');
+        infoWindow.setContent(point.toilet_name);
+
+        $.each(infoWindows, function(i, infoWindow) {
+          infoWindow.close();
+        });
+
         infoWindow.open(map, marker);
 
       });
 
-      console.log(point);
+      markerBounds.extend(position);
+           
 
     });
+    
+    map.fitBounds(markerBounds);
+    
 
   }
 
@@ -101,7 +121,7 @@
       animate: true,
       max: 100,
       min: 0,
-      orientation: 'vertical',
+      orientation: 'horizontal',
       slide: function(event, ui) {
          
          var value = (ui.value / $(event.target).slider('option', 'max')) * 200;
@@ -126,6 +146,13 @@
           mapTypeId: google.maps.MapTypeId.ROADMAP
 
         });
+
+
+      new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(lat, lon),
+        //icon: ''
+      });
 
 
 
