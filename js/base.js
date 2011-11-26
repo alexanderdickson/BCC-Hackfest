@@ -7,8 +7,7 @@
 
   // Map object.
   var map;
-
-
+  
   // Utility belt.
   var util = {
     userMessage: function(msg) {
@@ -54,16 +53,22 @@
 
       $.post('receive-location.php', JSON.stringify(post), function(points) {
 
-        renderMap(points);
+        renderMap(points, lat, lon);
 
       });
 
   }
 
   // Draw points on map.
-  var renderMap = function(points) {
-    var markerBounds = new google.maps.LatLngBounds(),
+  var renderMap = function(points, lat, lon) {
+    var keys = ['toilet_name', 'street', 'suburb', 'disabled_access', 'availability'],
+        markerBounds = new google.maps.LatLngBounds(),
         markers = [];
+
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+
 
     $.each(points, function(i, point) {
 
@@ -73,8 +78,6 @@
           hasDisabledAccess = disabledAccess == 'fully accessible' || disabledAccess.indexOf('wheelchair') !== -1,
           originalImgSrc = 'images/toilets' + (hasDisabledAccess ? '-disability' : '') + '.png';
 
-
-      
 
       var marker = new google.maps.Marker({
         map: map,
@@ -88,8 +91,7 @@
         img: originalImgSrc
       });
 
-      google.maps.event.addListener(marker, 'click', function() {
-        
+      var click = function() {
         $.each(markers, function(i, thisMarker) {
           if (marker === thisMarker.marker) {
             return true;
@@ -98,10 +100,41 @@
         });
 
         marker.setIcon(originalImgSrc.replace(/\.\w{3}$/, '-active$&'));
+        
+        $.each(keys, function(i, key) {
+          $('#' + key).text(point[key] || 'Unknown');
+        });
 
-      });
+        //console.log(marker);
+        
+        $('.get_directions a').click(function() {
 
-      console.log(point);
+          var request = {
+            origin: new google.maps.LatLng(lat, lon),
+            destination: position,
+            travelMode: google.maps.TravelMode[this.id.toUpperCase()]
+          };
+
+          directionsService.route(request, function(result, status) {
+
+            if (status == google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(result);
+            }
+
+          });
+    });
+
+
+      }
+
+      google.maps.event.addListener(marker, 'click', click);
+      
+      // Load nearest by default.
+      if ( ! i) { 
+        click();
+      }
+
+      //console.log(point);
 
       markerBounds.extend(position);
            
@@ -123,19 +156,25 @@
     urgency = $('#urgency');
 
     // Set up jQuery UI slider.
-
+    var timeout;
     urgency.slider({
       animate: true,
       max: 100,
       min: 0,
       orientation: 'horizontal',
       slide: function(event, ui) {
-         
+         clearTimeout(timeout);
+
          var value = (ui.value / $(event.target).slider('option', 'max')) * 200;
 
          $(event.target)
           .find('.ui-slider-handle')
           .css('backgroundColor', 'rgb(' + value + ', ' + (200 - value) + ', 0)'); 
+        
+        timeout = setTimeout(function() {
+          getUserLocation(getData);
+
+        }, 300);
 
       }
     });
