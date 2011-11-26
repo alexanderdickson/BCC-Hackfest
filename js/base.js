@@ -47,16 +47,15 @@
   // Send user location to server.
   var getData = function(lat, lon) {
       
-      
-
       var post = {
         location: [lat, lon],
         urgency: urgency.slider('value')
       };
 
-      $.post('receive-location.php', JSON.stringify(post), function(response) {
+      $.post('receive-location.php', JSON.stringify(post), function(points) {
         
-        renderMap();
+
+        renderMap(points);
 
       });
 
@@ -65,6 +64,25 @@
   // Draw points on map.
   var renderMap = function(points) {
 
+    $.each(points, function(i, point) {
+
+      var marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(point.latitude, point.longitude)
+      });
+
+      var infoWindow = new google.maps.InfoWindow();
+
+      google.maps.event.addListener(marker, 'click', function() {
+
+        infoWindow.setContent('hello');
+        infoWindow.open(map, marker);
+
+      });
+
+      console.log(point);
+
+    });
 
   }
 
@@ -85,15 +103,13 @@
       min: 0,
       orientation: 'vertical',
       slide: function(event, ui) {
-         //console.log(event, ui)
          
          var value = (ui.value / $(event.target).slider('option', 'max')) * 200;
-
-        console.log(value);
 
          $(event.target)
           .find('.ui-slider-handle')
           .css('backgroundColor', 'rgb(' + value + ', ' + (200 - value) + ', 0)'); 
+
       }
     });
 
