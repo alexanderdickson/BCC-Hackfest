@@ -1,4 +1,7 @@
 <?php
+error_reporting(-1);
+ini_set('display_errors', 'on');
+
 $headers = array();
 $toilets = array();
 $row = 0;

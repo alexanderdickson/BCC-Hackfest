@@ -3,7 +3,7 @@ include 'main.php';
 $postdata = file_get_contents("php://input");
 
 $user = json_decode($postdata, true);
-
+$user['location'] = array(-27.4675018,153.0246554);
 //$user['location'][0] = lat
 //$user['location'][1] = long
 
@@ -21,8 +21,10 @@ $toilets = array_map(function($member) use ($user) {
 
 }, $toilets);
 
-$toilets = array_filter($toilets, function($member) {
-	$max_distance = ($user['urgency'] + 500) * 2;
+$max_distance = (10 * $user['urgency']) + 1000;
+
+$toilets = array_filter($toilets, function($member) use ($max_distance) {
+	//$max_distance = ($user['urgency'] + 500) * 2;
 	return $member['distance'] < $max_distance;
 });
 
@@ -30,7 +32,5 @@ usort($toilets, function($a, $b) {
 	return $a['distance'] - $b['distance'];
 });
 
-
-
 header('content-type: application/json');
-echo json_encode(array_slice($toilets, 0, 10));
+echo json_encode(array_slice($toilets, 0, 30));
